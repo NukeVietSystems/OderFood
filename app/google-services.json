@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "617721975714",
+    "firebase_url": "https://oderfood-56f9c.firebaseio.com",
+    "project_id": "oderfood-56f9c",
+    "storage_bucket": "oderfood-56f9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617721975714:android:3f5816689b80e8b9",
+        "android_client_info": {
+          "package_name": "com.toshiro97.oderfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617721975714-21v6ooica2v7l4ghcel58e38mr4dlj7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toshiro97.oderfood",
+            "certificate_hash": "146ec606969c4307630f4a59fe79a09e84afcc56"
+          }
+        },
+        {
+          "client_id": "617721975714-ooma93lnmodgmdqrsc43o5t36fcup5u4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBpLmU5NkCs8wYNd7lYK4jFNSgPxMOb3w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617721975714-ooma93lnmodgmdqrsc43o5t36fcup5u4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
