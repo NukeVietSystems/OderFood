@@ -72,14 +72,11 @@ public class ListenOrder extends Service  implements ChildEventListener{
                 .setContentText("Order #" + key + " was update status to " + Common.convertCodeToStatus(request.getStatus()))
                 .setContentIntent(contentIntent)
                 .setContentInfo("Info")
-                .setSmallIcon(R.drawable.logochicken)
-                .setLargeIcon(BitmapFactory.decodeResource(getBaseContext().getResources(),
-                        R.drawable.logochicken))
-        ;
+                .setSmallIcon(R.drawable.logochicken);
+
 
         NotificationManager notificationManager = (NotificationManager)getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1,builder.build());
-
     }
 
     @Override

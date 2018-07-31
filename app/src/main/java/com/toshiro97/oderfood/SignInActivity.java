@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -64,6 +65,9 @@ public class SignInActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
+
+        Typeface typeface = Typeface.SANS_SERIF;
+        edtPassword.setTypeface(typeface);
 
         database = FirebaseDatabase.getInstance();
         table_User = database.getReference("User");

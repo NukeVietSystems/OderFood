@@ -45,7 +45,10 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
-            app:met_singleLineEllipsis="true" />
+            app:met_singleLineEllipsis="true"
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

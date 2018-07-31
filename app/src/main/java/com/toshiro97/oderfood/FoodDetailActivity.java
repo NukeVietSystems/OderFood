@@ -83,7 +83,7 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
         super.onCreate(savedInstanceState);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/restaurant_font.TTF")
+                .setDefaultFontPath("fonts/login_font.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 

@@ -3,12 +3,12 @@ package com.toshiro97.oderfood.model;
 import java.util.List;
 
 public class Request {
-    private String phone,name,adress,total,status,comment,paymentState;
+    private String phone,name,adress,total,status,comment,paymentState,latLng;
     private List<Order> foods;
 
     public Request(){}
 
-    public Request(String phone, String name, String adress, String total, String status, String comment, String paymentState, List<Order> foods) {
+    public Request(String phone, String name, String adress, String total, String status, String comment, String paymentState, String latLng, List<Order> foods) {
         this.phone = phone;
         this.name = name;
         this.adress = adress;
@@ -16,6 +16,7 @@ public class Request {
         this.status = status;
         this.comment = comment;
         this.paymentState = paymentState;
+        this.latLng = latLng;
         this.foods = foods;
     }
 
@@ -73,6 +74,14 @@ public class Request {
 
     public void setPaymentState(String paymentState) {
         this.paymentState = paymentState;
+    }
+
+    public String getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(String latLng) {
+        this.latLng = latLng;
     }
 
     public List<Order> getFoods() {
