@@ -11,7 +11,7 @@ import com.toshiro97.oderfood.remote.IGoogleService;
 import com.toshiro97.oderfood.remote.RetrofitGoogleAPI;
 
 public class Common {
-    public static User currentUser;
+
 
     public static String convertCodeToStatus(String status){
         if (status.equals("0"))return "Placed";
@@ -37,6 +37,7 @@ public class Common {
 
     public static final String USER_KEY = "User";
     public static final String PASSWORD_KEY = "Password";
+    public static final String INTENT_FOOD_ID = "FoodId";
 
     /* for Google API service**/
     public static final String googleAPIUrl = "https://maps.googleapis.com/";
@@ -49,6 +50,8 @@ public class Common {
     public static APIService getFCMService(){
         return FCMRetrofitClient.getClient(fcmUrl).create(APIService.class);
     }
+
+    public static User currentUser;
     /**/
 
 

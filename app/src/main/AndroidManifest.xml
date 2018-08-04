@@ -15,11 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAI4QSxbx85-T7WWVXIusXGJOTAzvFfZ3Y"/>
-
+            android:value="AIzaSyAI4QSxbx85-T7WWVXIusXGJOTAzvFfZ3Y" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -29,7 +27,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -52,12 +49,14 @@
         <service
             android:name=".Service.ListenOrder"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider428797714273348"
             android:exported="true" />
+
+        <activity android:name=".ShowCommentActivity"></activity>
     </application>
 
 </manifest>

@@ -20,7 +20,7 @@ import com.toshiro97.oderfood.R;
 import com.toshiro97.oderfood.common.Common;
 import com.toshiro97.oderfood.model.Request;
 
-public class ListenOrder extends Service  implements ChildEventListener{
+public class ListenOrder extends Service implements ChildEventListener{
 
     FirebaseDatabase database;
     DatabaseReference request;
@@ -73,7 +73,6 @@ public class ListenOrder extends Service  implements ChildEventListener{
                 .setContentIntent(contentIntent)
                 .setContentInfo("Info")
                 .setSmallIcon(R.drawable.logochicken);
-
 
         NotificationManager notificationManager = (NotificationManager)getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1,builder.build());

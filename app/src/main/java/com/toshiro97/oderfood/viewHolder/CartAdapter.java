@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.squareup.picasso.Picasso;
 import com.toshiro97.oderfood.CartActivity;
 import com.toshiro97.oderfood.R;
 import com.toshiro97.oderfood.common.Common;
@@ -45,9 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(CartViewHolder holder, final int position) {
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound(""+ orderList.get(position).getQuantity(), Color.RED);
-        holder.imageCartCount.setImageDrawable(drawable);
+        Picasso.with(cartActivity.getBaseContext()).load(orderList.get(position).getImage()).resize(70,70).into(holder.imageCart);
 
         holder.btnQuantity.setNumber(orderList.get(position).getQuantity());
 
@@ -85,7 +84,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
 }
 class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener ,View.OnCreateContextMenuListener{
     public TextView tvCartName,tvPrice;
-    public ImageView imageCartCount;
+    public ImageView imageCart;
     public ElegantNumberButton btnQuantity;
 
     private ItemClickListener itemClickListener;
@@ -98,7 +97,7 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         super(itemView);
         tvCartName = itemView.findViewById(R.id.cart_item_name_text_view);
         tvPrice = itemView.findViewById(R.id.cart_item_price_text_view);
-        imageCartCount = itemView.findViewById(R.id.cart_image);
+        imageCart = itemView.findViewById(R.id.cart_image);
         btnQuantity = itemView.findViewById(R.id.btn_quatity);
 
         itemView.setOnCreateContextMenuListener(this);

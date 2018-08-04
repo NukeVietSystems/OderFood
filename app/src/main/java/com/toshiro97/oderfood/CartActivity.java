@@ -226,7 +226,6 @@ public class CartActivity extends AppCompatActivity implements
         LayoutInflater inflater = this.getLayoutInflater();
         View orderAdressComment = inflater.inflate(R.layout.order_address_comment, null);
 
-//        final EditText edtAddress = orderAdressComment.findViewById(R.id.edtAddress);
         final PlaceAutocompleteFragment edtAddress = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         //Hide search icon before fragment
         edtAddress.getView().findViewById(R.id.place_autocomplete_search_button).setVisibility(View.GONE);
@@ -256,21 +255,36 @@ public class CartActivity extends AppCompatActivity implements
         final RadioButton rdHomeAdress = orderAdressComment.findViewById(R.id.rbShipToHome);
 
 //        event radio
-//        rdHomeAdress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//                    if(Common.currentUser.getHomeAddress() != null || !TextUtils.isEmpty(Common.currentUser.getHomeAddress())){
-//
-//                        address = Common.currentUser.getHomeAddress();
-//                        //Set this address to edit text
-//                        ((EditText)addressEdit.getView().findViewById(R.id.place_autocomplete_search_input))
-//                                .setText(address);
-//
-//                    }
-//                }
-//            }
-//        });
+        rdHomeAdress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    if(Common.currentUser.getHomeAdress() != null || !TextUtils.isEmpty(Common.currentUser.getHomeAdress())){
+
+                        address = Common.currentUser.getHomeAdress();
+                        //Set this address to edit text
+                        ((EditText)edtAddress.getView().findViewById(R.id.place_autocomplete_search_input))
+                                .setText(address);
+                        edtAddress.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                            @Override
+                            public void onPlaceSelected(Place place) {
+                                shippingAddress = place;
+                            }
+
+                            @Override
+                            public void onError(Status status) {
+                                Log.e("ERROR", "onError: " +status.getStatusMessage() );
+                            }
+                        });
+
+
+
+                    }else {
+                        Toast.makeText(CartActivity.this, "Please confirm Home address", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
 
         rdShipToAdress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -293,6 +307,22 @@ public class CartActivity extends AppCompatActivity implements
                                         //Set this address to edit text
                                         ((EditText)edtAddress.getView().findViewById(R.id.place_autocomplete_search_input))
                                                 .setText(address);
+                                        (edtAddress.getView().findViewById(R.id.place_autocomplete_search_input))
+                                                .setSelected(true);
+                                        edtAddress.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                                            @Override
+                                            public void onPlaceSelected(Place place) {
+                                                shippingAddress = place;
+                                                Log.d("Place", "onPlaceSelected: ");
+                                            }
+
+                                            @Override
+                                            public void onError(Status status) {
+
+                                            }
+                                        });
+
+
 
                                     } catch (NullPointerException e) { //atrapar el error y mostrarlo y q no crashee app.
                                         Log.d("ERROR", "onResponse: NullPointerException: " + e.getMessage());
@@ -393,10 +423,9 @@ public class CartActivity extends AppCompatActivity implements
                                 cart
                         );
 //                      submit to firebase
-
                         requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
-//                      delete cart
 
+//                      delete cart
                         new Database(getBaseContext()).cleanCart();
                         Toast.makeText(CartActivity.this, "Thank you, waiting our !", Toast.LENGTH_SHORT).show();
                         finish();

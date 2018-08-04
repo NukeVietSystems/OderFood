@@ -25,19 +25,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 import com.toshiro97.oderfood.Service.ListenOrder;
 import com.toshiro97.oderfood.common.Common;
 import com.toshiro97.oderfood.database.Database;
 import com.toshiro97.oderfood.interFace.ItemClickListener;
+import com.toshiro97.oderfood.model.Banner;
 import com.toshiro97.oderfood.model.Category;
 import com.toshiro97.oderfood.viewHolder.MenuViewHolder;
 
@@ -66,6 +74,10 @@ public class HomeActivity extends AppCompatActivity
     SwipeRefreshLayout swipeLayoutHome;
     @BindView(R.id.fab)
     CounterFab fab;
+
+    HashMap<String,String> imageList ;
+    @BindView(R.id.slider_layout)
+    SliderLayout sliderLayout;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -177,13 +189,72 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         });
+
+        setupSlider();
+    }
+
+    private void setupSlider() {
+        imageList = new HashMap<>();
+
+        final DatabaseReference banners = database.getReference("Banner");
+
+        banners.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
+
+                    Banner banner = postSnapshot.getValue(Banner.class);
+                    //We will concat string name and id like
+                    //PIZZA@@@01 => and we will use PIZZA for show description, 01 for foodId to click.
+                    imageList.put(banner.getName()+"@@@"+banner.getFoodId(),banner.getImage());
+                }
+                for(String key:imageList.keySet()){
+                    String[] keySplit = key.split("@@@");
+                    String foodName = keySplit[0];
+                    String foodId = keySplit[1];
+
+                    //Create slider
+                    final TextSliderView textSliderView = new TextSliderView(getBaseContext());
+                    textSliderView
+                            .description(foodName)
+                            .image(imageList.get(key))
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                                @Override
+                                public void onSliderClick(BaseSliderView slider) {
+                                    Intent intent = new Intent(HomeActivity.this, FoodDetailActivity.class);
+                                    intent.putExtras(textSliderView.getBundle());
+                                    startActivity(intent);
+                                }
+                            });
+                    //Add extra bundle
+                    textSliderView.bundle(new Bundle());
+                    textSliderView.getBundle().putString("FoodID", foodId);
+
+                    sliderLayout.addSlider(textSliderView);
+
+                    ///Remove event after finish
+                    banners.removeEventListener(this);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        sliderLayout.setCustomAnimation(new DescriptionAnimation());
+        sliderLayout.setDuration(4000);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         fab.setCount(new Database(this).getCountCart());
-        if (adapter != null){
+        if (adapter != null) {
             adapter.startListening();
         }
     }
@@ -203,6 +274,7 @@ public class HomeActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
+        sliderLayout.stopAutoCycle();
     }
 
     @Override
@@ -229,7 +301,7 @@ public class HomeActivity extends AppCompatActivity
 //            startActivity(intent);
 
         } else if (id == R.id.nav_home_address) {
-//            showHomeAddressDialog();
+            showHomeAddressDialog();
 
         } else if (id == R.id.nav_cart) {
             Intent intent = new Intent(HomeActivity.this, CartActivity.class);
@@ -320,6 +392,40 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void showHomeAddressDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("CHANGE HOME ADDRESS");
+        alertDialog.setMessage("Please fill all information");
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View layout_home = inflater.inflate(R.layout.home_adress_layout, null);
+
+        final MaterialEditText homeAddressEditText = layout_home.findViewById(R.id.edtHomeAddress);
+
+        alertDialog.setView(layout_home);
+        alertDialog.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                //Start new home address
+                Common.currentUser.setHomeAdress(homeAddressEditText.getText().toString());
+
+                FirebaseDatabase.getInstance().getReference("User")
+                        .child(Common.currentUser.getPhone())
+                        .setValue(Common.currentUser)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(HomeActivity.this, "Update address successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
 

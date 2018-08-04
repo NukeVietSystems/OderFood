@@ -1,7 +1,7 @@
 package com.toshiro97.oderfood.model;
 
 public class User {
-    private String Name,Password,phone,isStaff,secureCode;
+    private String Name,Password,phone,isStaff,secureCode,homeAdress;
 
     public User(){}
 
@@ -50,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public String getHomeAdress() {
+        return homeAdress;
+    }
+
+    public void setHomeAdress(String homeAdress) {
+        this.homeAdress = homeAdress;
     }
 }

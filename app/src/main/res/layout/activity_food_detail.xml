@@ -136,7 +136,8 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginBottom="18dp"
                         app:textSize="8sp"
-                        app:backGroundColor="@color/colorAccent"
+                        app:backgroundDrawable="@color/yellow"
+                        app:backGroundColor="@color/yellow"
                         app:initialNumber="1"
                         app:finalNumber="20">
 
@@ -166,7 +167,9 @@
                         android:max="5"
                         android:isIndicator="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:progressTint="@color/yellow"
+                        />
 
 
                     <TextView

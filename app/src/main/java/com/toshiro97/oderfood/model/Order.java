@@ -2,25 +2,28 @@ package com.toshiro97.oderfood.model;
 
 public class Order {
     private int ID;
-    private String ProductId,ProductName,Quantity,Price,Discount;
+    private String ProductId,ProductName,Quantity,Price,Discount,Image;
 
     public Order(){}
 
-    public Order(int id,String productId, String productName, String quantity, String price, String discount) {
+    public Order(int id,String productId, String productName, String quantity, String price, String discount,String image) {
         ID = id;
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Price = price;
         Discount = discount;
+        Image = image;
+
     }
 
-    public Order(String productId, String productName, String quantity, String price, String discount) {
+    public Order(String productId, String productName, String quantity, String price, String discount,String image) {
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Price = price;
         Discount = discount;
+        Image = image;
     }
 
 
@@ -70,5 +73,13 @@ public class Order {
 
     public void setDiscount(String discount) {
         Discount = discount;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 }

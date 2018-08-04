@@ -1,8 +1,10 @@
 package com.toshiro97.oderfood;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,6 +94,7 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
         setContentView(R.layout.activity_food_detail);
         ButterKnife.bind(this);
 
+
         //firebase
         database = FirebaseDatabase.getInstance();
         foods = database.getReference("Foods");
@@ -160,7 +165,7 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
         });
     }
 
-    @OnClick({R.id.cart_button_fab, R.id.rating_button_fab})
+    @OnClick({R.id.cart_button_fab, R.id.rating_button_fab,R.id.show_comments_button})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cart_button_fab:
@@ -169,7 +174,8 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
                         currentFood.getName(),
                         numberButton.getNumber(),
                         currentFood.getPrice(),
-                        currentFood.getDiscount()
+                        currentFood.getDiscount(),
+                        currentFood.getImage()
                 ));
 
                 Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
@@ -177,6 +183,11 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
             case R.id.rating_button_fab:
                 showRatingDialog();
                 
+                break;
+            case R.id.show_comments_button:
+                Intent intent = new Intent(this,ShowCommentActivity.class);
+                intent.putExtra(Common.INTENT_FOOD_ID,foodId);
+                startActivity(intent);
                 break;
         }
     }
@@ -207,27 +218,15 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
                 foodId,
                 String.valueOf(value),
                 comments);
-        ratingTbl.child(Common.currentUser.getPhone()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(Common.currentUser.getPhone()).exists()){
-                    //remove old value
-                    ratingTbl.child(Common.currentUser.getPhone()).removeValue();
-                    //update value
-                    ratingTbl.child(Common.currentUser.getPhone()).setValue(rating);
-                }else {
-                    //update value
-                    ratingTbl.child(Common.currentUser.getPhone()).setValue(rating);
-                }
-                Toast.makeText(FoodDetailActivity.this, "Thank you for submit rating", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        //Fix use can rate multiple times
+        ratingTbl.push()
+                .setValue(rating)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(FoodDetailActivity.this, "Thank you for submit rating !!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
