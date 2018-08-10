@@ -110,7 +110,7 @@ public class CartActivity extends AppCompatActivity implements
     FirebaseDatabase database;
     DatabaseReference requests;
 
-    public TextView totalPriceTextView; //public para usarlo en el CartAdapter.
+    public TextView totalPriceTextView;
     Button placeOrderButton;
 
     List<Order> orders = new ArrayList<>();
@@ -154,6 +154,7 @@ public class CartActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_cart);
 
         rootLayout = findViewById(R.id.rootLayout);
+        rootLayout.setBackgroundResource(R.drawable.background);
 
         //Init google api service
         mGoogleMapService = Common.getGoogleMapsAPI();

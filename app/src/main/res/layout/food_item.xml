@@ -1,87 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="10dp"
+    android:layout_marginBottom="8dp"
     app:cardCornerRadius="0dp"
-    android:layout_marginBottom="8dp">
+    android:padding="10dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:weightSum="5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/food_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@drawable/background" />
 
         <LinearLayout
-            android:layout_margin="10dp"
-            android:weightSum="10"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/food_name_text_view"
-                android:text="Name of Food"
-                android:textSize="20sp"
-                android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:id="@+id/share_button_image_view"
-                android:background="@drawable/ic_share_black_24dp"
-                android:tint="@color/colorAccent"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="SHARE" />
-
-            <ImageView
-                android:id="@+id/fav_image"
-                android:src="@drawable/ic_favorite_border_black_24dp"
-                android:tint="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
-                android:layout_width="0dp"
+                android:weightSum="10">
+
+                <TextView
+                    android:id="@+id/food_name_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:text="Name of Food"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/share_button_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_share_black_24dp"
+                    android:contentDescription="SHARE"
+                    android:tint="@color/colorAccent" />
+
+                <ImageView
+                    android:id="@+id/fav_image"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="FAVORITE"
+                    android:src="@drawable/ic_favorite_border_black_24dp"
+                    android:tint="@color/colorAccent" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="FAVORITE" />
+                android:layout_weight="1"
+                >
 
+                <TextView
+                    android:id="@+id/food_price_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="$100"
+                    android:textSize="20sp" />
 
+                <ImageView
+                    android:id="@+id/fav_quick_cart_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/ic_shopping_cart_black_24dp"
+                    android:tint="@color/colorAccent" />
+
+            </RelativeLayout>
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_margin="10dp"
-                android:id="@+id/food_price_text_view"
-                android:text="$100"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:id="@+id/fav_quick_cart_image_view"
-                android:src="@drawable/ic_shopping_cart_black_24dp"
-                android:tint="@color/colorAccent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
 
     </LinearLayout>
 

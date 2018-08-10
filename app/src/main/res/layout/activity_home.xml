@@ -22,7 +22,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer"
-        android:background="@color/overlayBackground"
+        android:background="@android:color/holo_green_light"
         app:itemTextColor="@android:color/white"
         app:itemIconTint="@android:color/white"
 

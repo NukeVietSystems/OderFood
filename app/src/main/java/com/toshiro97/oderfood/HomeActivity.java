@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,14 +44,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
-import com.toshiro97.oderfood.model.Token;
-import com.toshiro97.oderfood.model.User;
-import com.toshiro97.oderfood.service.ListenOrder;
 import com.toshiro97.oderfood.common.Common;
 import com.toshiro97.oderfood.database.Database;
 import com.toshiro97.oderfood.interFace.ItemClickListener;
 import com.toshiro97.oderfood.model.Banner;
 import com.toshiro97.oderfood.model.Category;
+import com.toshiro97.oderfood.model.Token;
+import com.toshiro97.oderfood.model.User;
 import com.toshiro97.oderfood.viewHolder.MenuViewHolder;
 
 import java.util.HashMap;
@@ -81,9 +81,11 @@ public class HomeActivity extends AppCompatActivity
     @BindView(R.id.fab)
     CounterFab fab;
 
-    HashMap<String,String> imageList ;
+    HashMap<String, String> imageList;
     @BindView(R.id.slider_layout)
     SliderLayout sliderLayout;
+    @BindView(R.id.nested_scroll_view)
+    NestedScrollView nestedScrollView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -162,9 +164,11 @@ public class HomeActivity extends AppCompatActivity
         tvFullName.setText(Common.currentUser.getName());
 
         //Load menu
+        recyclerMenu.setNestedScrollingEnabled(true);
         recyclerMenu.setLayoutManager(new GridLayoutManager(this, 2));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerMenu.getContext(), R.anim.layout_fall_down);
         recyclerMenu.setLayoutAnimation(controller);
+
 
 //        Intent service = new Intent(HomeActivity.this, ListenOrder.class);
 //        startService(service);
@@ -212,14 +216,14 @@ public class HomeActivity extends AppCompatActivity
         banners.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     Banner banner = postSnapshot.getValue(Banner.class);
                     //We will concat string name and id like
                     //PIZZA@@@01 => and we will use PIZZA for show description, 01 for foodId to click.
-                    imageList.put(banner.getName()+"@@@"+banner.getFoodId(),banner.getImage());
+                    imageList.put(banner.getName() + "@@@" + banner.getFoodId(), banner.getImage());
                 }
-                for(String key:imageList.keySet()){
+                for (String key : imageList.keySet()) {
                     String[] keySplit = key.split("@@@");
                     String foodName = keySplit[0];
                     String foodId = keySplit[1];
@@ -273,7 +277,7 @@ public class HomeActivity extends AppCompatActivity
     private void updateToken(String token) {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference tokens = db.getReference(Common.token_table);
-        Token data = new Token(token,false); //false because this token send from Clien app
+        Token data = new Token(token, false); //false because this token send from Clien app
         tokens.child(Common.currentUser.getPhone()).setValue(data);
     }
 
@@ -333,7 +337,7 @@ public class HomeActivity extends AppCompatActivity
             showChangePasswordDialog();
 
         } else if (id == R.id.nav_chat) {
-            Intent chatIntent = new Intent(HomeActivity.this,ChatActivity.class);
+            Intent chatIntent = new Intent(HomeActivity.this, ChatActivity.class);
             startActivity(chatIntent);
 
         } else if (id == R.id.nav_sign_out) {
@@ -458,15 +462,15 @@ public class HomeActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void getStaffUser(){
+    private void getStaffUser() {
         referenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    if (user.getIsStaff().equals("true")){
+                    if (user.getIsStaff().equals("true")) {
                         Common.staffUser = user;
-                        Log.d(TAG, "onDataChange: "+Common.currentUser);
+                        Log.d(TAG, "onDataChange: " + Common.currentUser);
                     }
                 }
             }

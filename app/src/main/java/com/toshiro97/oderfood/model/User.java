@@ -2,7 +2,7 @@ package com.toshiro97.oderfood.model;
 
 public class User {
     private String Name,Password,phone,isStaff,secureCode,homeAdress;
-    private Object balance;
+    private String balance;
 
     public User(){}
 
@@ -12,13 +12,14 @@ public class User {
         isStaff = "false";
         this.secureCode = secureCode;
         homeAdress = homeAdress;
+        balance = "0";
     }
 
-    public Object getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(Object balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 

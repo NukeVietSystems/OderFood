@@ -16,7 +16,8 @@
         <ImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:src="@drawable/logo_eat_it" />
+            android:src="@drawable/logo_eat_it"
+            />
         <TextView
             android:id="@+id/txtSologan"
             android:gravity="center"
