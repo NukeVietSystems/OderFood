@@ -82,7 +82,7 @@
         </LinearLayout>
 
         <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-            android:id="@+id/btn_quatity"
+            android:id="@+id/quantity_cart_button"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"

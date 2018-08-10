@@ -1,4 +1,4 @@
-package com.toshiro97.oderfood.Service;
+package com.toshiro97.oderfood.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 

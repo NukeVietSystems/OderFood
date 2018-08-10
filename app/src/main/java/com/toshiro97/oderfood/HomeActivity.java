@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,9 +40,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
-import com.toshiro97.oderfood.Service.ListenOrder;
+import com.toshiro97.oderfood.model.Token;
+import com.toshiro97.oderfood.model.User;
+import com.toshiro97.oderfood.service.ListenOrder;
 import com.toshiro97.oderfood.common.Common;
 import com.toshiro97.oderfood.database.Database;
 import com.toshiro97.oderfood.interFace.ItemClickListener;
@@ -63,8 +67,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "";
     FirebaseDatabase database;
     DatabaseReference category;
+    DatabaseReference referenceUser;
     TextView tvFullName;
     @BindView(R.id.recycler_menu)
     RecyclerView recyclerMenu;
@@ -103,6 +109,9 @@ public class HomeActivity extends AppCompatActivity
         //Init firebase
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
+        referenceUser = database.getReference("User");
+
+        getStaffUser();
 
         //load menu
         FirebaseRecyclerOptions<Category> options = new FirebaseRecyclerOptions.Builder<Category>()
@@ -136,7 +145,7 @@ public class HomeActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        fab.setCount(new Database(this).getCountCart());
+        fab.setCount(new Database(this).getCountCart(Common.currentUser.getPhone()));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -157,8 +166,8 @@ public class HomeActivity extends AppCompatActivity
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recyclerMenu.getContext(), R.anim.layout_fall_down);
         recyclerMenu.setLayoutAnimation(controller);
 
-        Intent service = new Intent(HomeActivity.this, ListenOrder.class);
-        startService(service);
+//        Intent service = new Intent(HomeActivity.this, ListenOrder.class);
+//        startService(service);
 
         swipeLayoutHome.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -189,6 +198,8 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         });
+
+        updateToken(FirebaseInstanceId.getInstance().getToken());
 
         setupSlider();
     }
@@ -253,10 +264,17 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        fab.setCount(new Database(this).getCountCart());
+        fab.setCount(new Database(this).getCountCart(Common.currentUser.getPhone()));
         if (adapter != null) {
             adapter.startListening();
         }
+    }
+
+    private void updateToken(String token) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference tokens = db.getReference(Common.token_table);
+        Token data = new Token(token,false); //false because this token send from Clien app
+        tokens.child(Common.currentUser.getPhone()).setValue(data);
     }
 
     private void loadMenu() {
@@ -314,8 +332,9 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_change_pass) {
             showChangePasswordDialog();
 
-        } else if (id == R.id.nav_settings) {
-//            showSettingsDialog();
+        } else if (id == R.id.nav_chat) {
+            Intent chatIntent = new Intent(HomeActivity.this,ChatActivity.class);
+            startActivity(chatIntent);
 
         } else if (id == R.id.nav_sign_out) {
             //delete remember user
@@ -438,4 +457,25 @@ public class HomeActivity extends AppCompatActivity
         Intent intent = new Intent(HomeActivity.this, CartActivity.class);
         startActivity(intent);
     }
+
+    private void getStaffUser(){
+        referenceUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    if (user.getIsStaff().equals("true")){
+                        Common.staffUser = user;
+                        Log.d(TAG, "onDataChange: "+Common.currentUser);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

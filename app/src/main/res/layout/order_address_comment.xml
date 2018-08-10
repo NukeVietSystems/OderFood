@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtComment"
+            android:id="@+id/order_comment_edit_text"
             android:hint="Comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,23 +34,57 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"/>
 
+        <TextView
+            android:text="Delivery method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/rbShipToAddress"
+                android:id="@+id/ship_to_address_radio_button"
                 android:text="Ship to this Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RadioButton
-                android:id="@+id/rbShipToHome"
+                android:id="@+id/home_address_radio_button"
                 android:text="Home Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
         </RadioGroup>
 
+        <TextView
+            android:text="Payment method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/cod_radio_button"
+                android:text="Cash on delivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/paypal_radio_button"
+                android:text="Paypal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/app_balance_radio_button"
+                android:text="App Balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RadioGroup>
 
     </LinearLayout>
 

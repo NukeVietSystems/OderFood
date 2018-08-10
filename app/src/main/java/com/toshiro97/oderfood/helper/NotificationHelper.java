@@ -36,7 +36,7 @@ public class NotificationHelper extends ContextWrapper {
         getManager().createNotificationChannel(foodOrderChanel);
     }
 
-    private NotificationManager getManager() {
+    public NotificationManager getManager() {
         if (manager == null){
             manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -44,16 +44,25 @@ public class NotificationHelper extends ContextWrapper {
         return manager;
     }
     @TargetApi(Build.VERSION_CODES.O)
-    public Notification.Builder getOrderFoodChanelNotification(String title, String body, PendingIntent contentIntent, Uri soundUri){
-       return new Notification.Builder(getApplicationContext(),FOOD_APP_ID).setContentIntent(contentIntent)
-               .setContentTitle(title)
-               .setContentText(body)
-               .setSmallIcon(R.drawable.logochicken)
-               .setSound(soundUri)
-               .setAutoCancel(false)
-               .setLargeIcon(BitmapFactory.decodeResource(getBaseContext().getResources(),
-                       R.drawable.logochicken));
+    public Notification.Builder getOrderAppChannelNotification(String title, String body, PendingIntent contentIntent, Uri soundUri){
 
+        return new Notification.Builder(getApplicationContext(), FOOD_APP_ID)
+                .setContentIntent(contentIntent)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setSmallIcon(R.drawable.logochicken)
+                .setSound(soundUri)
+                .setAutoCancel(false);
+    }
 
+    @TargetApi(Build.VERSION_CODES.O)
+    public Notification.Builder getOrderAppChannelNotification(String title, String body, Uri soundUri){
+
+        return new Notification.Builder(getApplicationContext(), FOOD_APP_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSound(soundUri)
+                .setAutoCancel(false);
     }
 }

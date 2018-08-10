@@ -7,14 +7,46 @@
     app:cardCornerRadius="0dp"
     android:layout_marginBottom="8dp">
 
+    <RelativeLayout
+        android:id="@+id/background_view_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bgRowBackground"
+        android:layout_margin="8dp">
+
+        <ImageView
+            android:id="@+id/delete_icon_image_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_delete_white_24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:layout_toLeftOf="@+id/delete_icon_image_view"
+            android:layout_centerVertical="true"
+            android:text="Delete"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
     <LinearLayout
+        android:id="@+id/foreground_view_linear_layout"
+        android:layout_margin="8dp"
+        android:background="@android:color/white"
         android:orientation="vertical"
         android:weightSum="5"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/food_image_view"
+            android:id="@+id/favorite_image_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4"
@@ -31,30 +63,13 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/food_name_text_view"
-                android:text="Name of Food"
+                android:id="@+id/favorite_name_text_view"
+                android:text="Name of Favorite"
                 android:textSize="20sp"
                 android:layout_weight="8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/share_button_image_view"
-                android:background="@drawable/ic_share_black_24dp"
-                android:tint="@color/colorAccent"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="SHARE" />
-
-            <ImageView
-                android:id="@+id/fav_image"
-                android:src="@drawable/ic_favorite_border_black_24dp"
-                android:tint="@color/colorAccent"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="FAVORITE" />
 
 
         </LinearLayout>
@@ -65,7 +80,7 @@
 
             <TextView
                 android:layout_margin="10dp"
-                android:id="@+id/food_price_text_view"
+                android:id="@+id/favorite_price_text_view"
                 android:text="$100"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"

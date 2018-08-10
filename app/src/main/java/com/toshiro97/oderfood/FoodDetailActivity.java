@@ -105,7 +105,7 @@ public class FoodDetailActivity extends AppCompatActivity implements RatingDialo
         collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppbar);
 
 //        count item
-        cartButtonFab.setCount(new Database(this).getCountCart());
+        cartButtonFab.setCount(new Database(this).getCountCart(Common.currentUser.getPhone()));
         //get food id from intent
         if (getIntent() != null) {
             foodId = getIntent().getStringExtra("FoodID");

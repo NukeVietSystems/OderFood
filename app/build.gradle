@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.stepstone.apprating:app-rating:2.0.0'
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+    implementation 'com.github.lguipeng:BubbleView:1.0.1'
     //firebase
     implementation 'com.google.firebase:firebase-auth:11.6.2'
     implementation 'com.google.firebase:firebase-core:11.6.2'

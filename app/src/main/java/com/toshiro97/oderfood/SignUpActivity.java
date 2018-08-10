@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "Phone number already register", Toast.LENGTH_SHORT).show();
                     } else {
                         mDialog.dismiss();
-                        User user = new User(edtName.getText().toString(), edtPassword.getText().toString(),edtSecureCode.getText().toString());
+                        User user = new User(edtName.getText().toString(), edtPassword.getText().toString(),edtSecureCode.getText().toString(),null);
                         table_User.child(edtPhone.getText().toString()).setValue(user);
                         Toast.makeText(SignUpActivity.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
                         finish();

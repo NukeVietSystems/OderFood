@@ -3,12 +3,18 @@ package com.toshiro97.oderfood.common;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.ParseException;
 
 import com.toshiro97.oderfood.model.User;
 import com.toshiro97.oderfood.remote.APIService;
 import com.toshiro97.oderfood.remote.FCMRetrofitClient;
 import com.toshiro97.oderfood.remote.IGoogleService;
 import com.toshiro97.oderfood.remote.RetrofitGoogleAPI;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Common {
 
@@ -38,6 +44,18 @@ public class Common {
     public static final String USER_KEY = "User";
     public static final String PASSWORD_KEY = "Password";
     public static final String INTENT_FOOD_ID = "FoodId";
+    public static final String token_table = "Tokens";
+    public static String PHONE_TEXT = "userPhone";
+    public static User staffUser ;
+
+
+    public static BigDecimal formatConcurrency(String amount, Locale locale) throws ParseException, java.text.ParseException {
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        if(format instanceof DecimalFormat){
+            ((DecimalFormat)format).setParseBigDecimal(true);
+        }
+        return (BigDecimal)format.parse(amount.replace("[^\\d.,]",""));
+    }
 
     /* for Google API service**/
     public static final String googleAPIUrl = "https://maps.googleapis.com/";
